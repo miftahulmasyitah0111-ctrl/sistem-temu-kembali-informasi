@@ -147,16 +147,18 @@ html, body, [class*="css"]{
 /* METRIC */
 .metric-grid{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(5,1fr);
     gap:15px;
+    margin-top:15px;
 }
 
 .metric-box{
     background:white;
-    border-radius:15px;
+    border-radius:18px;
     padding:20px;
     text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    border:1px solid #e5e7eb;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
 }
 
 .metric-label{
