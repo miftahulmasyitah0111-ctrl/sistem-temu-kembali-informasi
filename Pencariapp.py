@@ -144,32 +144,6 @@ html, body, [class*="css"]{
     color:#14b8a6;
 }
 
-/* METRIC */
-.metric-grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:15px;
-    margin-top:15px;
-}
-
-.metric-box{
-    background:white;
-    border-radius:18px;
-    padding:20px;
-    text-align:center;
-    border:1px solid #e5e7eb;
-    box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
-
-.metric-label{
-    color:#64748b;
-}
-
-.metric-value{
-    color:#14b8a6;
-    font-size:30px;
-    font-weight:700;
-}
 
 /* INFO */
 .info-banner{
