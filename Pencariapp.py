@@ -85,13 +85,10 @@ html, body, [class*="css"]{
 
 /* SEARCH CARD */
 .glass-card{
-    background:white;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 5px 15px rgba(0,0,0,.06);
-    border:1px solid #e2e8f0;
-    max-width:1400px;
-    margin:auto;
+    background:transparent;
+    padding:0;
+    border:none;
+    box-shadow:none;
 }
 
 /* INPUT */
