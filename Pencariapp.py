@@ -416,34 +416,60 @@ def main():
     URLS              = load_dataset_and_index()
 
     # ── Hero ──
-    st.markdown("""
-<div class="hero-section">
-    <div class="hero-logo">📰</div>
-    <h1 class="hero-title">
-        Mesin Pencari Berita Indonesia
-    </h1>
-    <p class="hero-subtitle">
-        TF-IDF • Cosine Similarity • Query Expansion
-    </p>
-</div>
+  # ==========================
+# SEARCH PANEL MODERN
+# ==========================
+
+st.markdown("""
+<div style="
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 8px 30px rgba(0,0,0,.08);
+margin-bottom:25px;
+">
 """, unsafe_allow_html=True)
-    # ── Panel Pencarian ──
-    col_left, col_center, col_right = st.columns([1, 3, 1])
-    with col_center:
-        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 
-        query_input  = st.text_input("", placeholder="Cari sesuatu yang menarik...", label_visibility="collapsed")
-        
-        col_a, col_b = st.columns(2)
-        with col_a:
-            use_expansion = st.checkbox("🔄 Gunakan Query Expansion", value=False)
-        with col_b:
-            top_n = st.selectbox("Jumlah hasil", [5, 10, 20], index=1, label_visibility="visible")
+col1, col2 = st.columns([5,1])
 
-        threshold = st.slider("Threshold relevansi", 0.01, 0.5, 0.1, 0.01)
+with col1:
+    query_input = st.text_input(
+        "",
+        placeholder="🔍 Cari sesuatu yang menarik...",
+        label_visibility="collapsed"
+    )
 
-        search_btn   = st.button("🔍  Cari Sekarang")
-        st.markdown('</div>', unsafe_allow_html=True)
+with col2:
+    st.write("")
+    search_btn = st.button("Cari Sekarang")
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    use_expansion = st.checkbox(
+        "🔄 Gunakan Query Expansion",
+        value=False
+    )
+
+with c2:
+    top_n = st.selectbox(
+        "Jumlah hasil",
+        [5,10,20],
+        index=1
+    )
+
+with c3:
+    threshold = st.slider(
+        "Threshold relevansi",
+        0.01,
+        1.0,
+        0.1,
+        0.01
+    )
+
+st.markdown("</div>", unsafe_allow_html=True)
 
     # ── Load & Index data ──
     if "df" not in st.session_state or "vectorizer" not in st.session_state:
