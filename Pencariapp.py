@@ -436,14 +436,15 @@ def main():
     col1, col2 = st.columns([5,1])
 
     with col1:
-        query_input = st.text_input(
-            "",
-            placeholder="🔍 Cari sesuatu yang menarik...",
-            label_visibility="collapsed"
-        )
-use_expansion = False
-top_n = 10
-threshold = 0.10
+    results, precision, recall, f1, synonyms_used = search(
+    query_tokens,
+    vectorizer,
+    tfidf_matrix,
+    df,
+    use_expansion=use_expansion,
+    threshold=threshold,
+    top_n=top_n
+)
     with col2:
         search_btn = st.button("🔍 Cari Sekarang")
 
