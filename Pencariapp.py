@@ -36,248 +36,167 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
 
-html, body, [class*="css"] {
-    font-family: 'Poppins', sans-serif;
-}
-
-/* ── Background ── */
-.stApp {
-    background: linear-gradient(135deg, #71d1e4 0%, #4db8d4 50%, #2a9fb8 100%);
-    min-height: 100vh;
+html, body, [class*="css"]{
+    font-family:'Poppins',sans-serif;
 }
 
-/* ── Sembunyikan elemen bawaan Streamlit ── */
-#MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 2rem; padding-bottom: 2rem; }
-
-/* ── Hero Section ── */
-.hero-section {
-    text-align: center;
-    padding: 60px 20px 40px;
-    animation: fadeInDown 0.8s ease;
+#MainMenu,
+footer,
+header{
+    visibility:hidden;
 }
 
-.hero-logo {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 20px;
-    border-radius: 25px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+.stApp{
+    background:linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e3a8a 50%,
+    #2563eb 100%
+    );
 }
 
-.hero-title {
-    font-size: 52px;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 8px;
-    text-shadow: 0 2px 15px rgba(0,0,0,0.15);
-    letter-spacing: -1px;
+.block-container{
+    max-width:1200px;
+    padding-top:2rem;
 }
 
-.hero-subtitle {
-    color: rgba(255,255,255,0.9);
-    font-size: 17px;
-    font-weight: 300;
-    margin-bottom: 0;
+/* HERO */
+
+.hero-section{
+    text-align:center;
+    margin-bottom:35px;
 }
 
-/* ── Glass Card ── */
-.glass-card {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    backdrop-filter: blur(18px);
-    border-radius: 28px;
-    padding: 36px 40px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-    margin-bottom: 24px;
-    animation: fadeInUp 0.6s ease;
+.hero-logo{
+    width:100px;
+    height:100px;
+    margin:auto;
+    border-radius:25px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(15px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:45px;
+    color:white;
+    border:1px solid rgba(255,255,255,.2);
 }
 
-/* ── Search Input ── */
-.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.2) !important;
-    border: 1.5px solid rgba(255,255,255,0.4) !important;
-    border-radius: 60px !important;
-    color: white !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-size: 17px !important;
-    padding: 18px 28px !important;
-    height: 60px !important;
-    backdrop-filter: blur(10px) !important;
-    transition: all 0.3s ease !important;
-}
-.stTextInput > div > div > input::placeholder { color: rgba(255,255,255,0.7) !important; }
-.stTextInput > div > div > input:focus {
-    box-shadow: 0 0 25px rgba(255,255,255,0.25) !important;
-    background: rgba(255,255,255,0.28) !important;
-}
-.stTextInput > label { color: white !important; font-weight: 500 !important; font-size: 14px !important; }
-
-/* ── Tombol ── */
-.stButton > button {
-    background: rgba(255,255,255,0.95) !important;
-    color: #1a7a8f !important;
-    border: none !important;
-    border-radius: 60px !important;
-    font-family: 'Poppins', sans-serif !important;
-    font-weight: 600 !important;
-    font-size: 15px !important;
-    padding: 14px 36px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15) !important;
-    width: 100% !important;
-}
-.stButton > button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.2) !important;
-    background: white !important;
+.hero-title{
+    color:white;
+    font-size:48px;
+    font-weight:700;
+    margin-top:15px;
+    margin-bottom:5px;
 }
 
-/* ── Selectbox ── */
-.stSelectbox > div > div {
-    background: rgba(255,255,255,0.18) !important;
-    border: 1.5px solid rgba(255,255,255,0.35) !important;
-    border-radius: 16px !important;
-    color: white !important;
-}
-.stSelectbox label { color: white !important; font-weight: 500 !important; font-size: 14px !important; }
-
-/* ── Slider ── */
-.stSlider label { color: white !important; font-weight: 500 !important; font-size: 14px !important; }
-.stSlider p { color: rgba(255,255,255,0.8) !important; }
-
-/* ── Checkbox ── */
-.stCheckbox label { color: white !important; font-weight: 400 !important; }
-
-/* ── Hasil pencarian card ── */
-.result-card {
-    background: rgba(255,255,255,0.92);
-    border-radius: 20px;
-    padding: 24px 28px;
-    margin-bottom: 16px;
-    border-left: 4px solid #1a7a8f;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    transition: all 0.25s ease;
-    animation: fadeInUp 0.4s ease;
-}
-.result-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.15);
-}
-.result-rank {
-    font-size: 12px;
-    font-weight: 600;
-    color: #1a7a8f;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 6px;
-}
-.result-title {
-    font-size: 17px;
-    font-weight: 600;
-    color: #1a2a35;
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-.result-url {
-    font-size: 13px;
-    color: #1a7a8f;
-    margin-bottom: 10px;
-    word-break: break-all;
-}
-.result-score-bar {
-    height: 6px;
-    background: linear-gradient(90deg, #71d1e4, #1a7a8f);
-    border-radius: 10px;
-    margin-top: 10px;
-}
-.result-meta {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-top: 8px;
-    flex-wrap: wrap;
-}
-.badge {
-    background: rgba(26,122,143,0.1);
-    color: #1a7a8f;
-    border-radius: 20px;
-    padding: 3px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    border: 1px solid rgba(26,122,143,0.2);
+.hero-subtitle{
+    color:#dbeafe;
+    font-size:17px;
 }
 
-/* ── Metrik ── */
-.metric-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 8px;
-}
-.metric-box {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
-.metric-label { color: rgba(255,255,255,0.8); font-size: 13px; font-weight: 400; margin-bottom: 4px; }
-.metric-value { color: white; font-size: 28px; font-weight: 700; letter-spacing: -1px; }
+/* SEARCH BOX */
 
-/* ── Info banner ── */
-.info-banner {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 16px;
-    padding: 16px 20px;
-    color: white;
-    font-size: 14px;
-    text-align: center;
-    margin-bottom: 20px;
+.glass-card{
+    background:rgba(255,255,255,.1);
+    backdrop-filter:blur(20px);
+    border-radius:25px;
+    padding:25px;
+    border:1px solid rgba(255,255,255,.15);
 }
 
-/* ── Animasi ── */
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+/* INFO */
 
-/* ── Footer ── */
-.footer {
-    text-align: center;
-    color: rgba(255,255,255,0.7);
-    font-size: 13px;
-    padding: 30px 0 10px;
+.info-banner{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+    font-weight:600;
+    color:#1e40af;
+    margin-bottom:20px;
 }
 
-/* ── Divider ── */
-hr { border-color: rgba(255,255,255,0.2) !important; }
+/* METRIC */
 
-/* ── Spinner ── */
-.stSpinner > div { border-top-color: white !important; }
-
-/* ── Expander ── */
-.streamlit-expanderHeader {
-    color: white !important;
-    background: rgba(255,255,255,0.1) !important;
-    border-radius: 12px !important;
+.metric-box{
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
+
+.metric-title{
+    color:#64748b;
+    font-size:14px;
+}
+
+.metric-value{
+    color:#1e40af;
+    font-size:28px;
+    font-weight:700;
+}
+
+/* RESULT */
+
+.result-card{
+    background:white;
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+.result-rank{
+    color:#2563eb;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.result-title{
+    color:#0f172a;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.result-url{
+    color:#64748b;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.badge{
+    background:#dbeafe;
+    color:#1e40af;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    margin-right:5px;
+}
+
+.result-score-bar{
+    height:8px;
+    background:linear-gradient(
+    90deg,
+    #2563eb,
+    #60a5fa
+    );
+    border-radius:20px;
+    margin-top:12px;
+}
+
+.footer{
+    text-align:center;
+    color:white;
+    margin-top:40px;
+    opacity:.8;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -510,13 +429,16 @@ def main():
 
     # ── Hero ──
     st.markdown("""
-    <div class="hero-section">
-        <div class="hero-logo">🔍</div>
-        <h1 class="hero-title">Search Engine</h1>
-        <p class="hero-subtitle">Sistem Temu Kembali Informasi Berita Indonesia · TF-IDF + Query Expansion</p>
-    </div>
-    """, unsafe_allow_html=True)
-
+<div class="hero-section">
+    <div class="hero-logo">📰</div>
+    <h1 class="hero-title">
+        Mesin Pencari Berita Indonesia
+    </h1>
+    <p class="hero-subtitle">
+        TF-IDF • Cosine Similarity • Query Expansion
+    </p>
+</div>
+""", unsafe_allow_html=True)
     # ── Panel Pencarian ──
     col_left, col_center, col_right = st.columns([1, 3, 1])
     with col_center:
