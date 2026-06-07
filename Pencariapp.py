@@ -442,12 +442,16 @@ def main():
         placeholder="🔍 Cari sesuatu yang menarik...",
         label_visibility="collapsed"
     )
-       
+       results, precision, recall, f1, synonyms_used = search(
+    query_tokens,
+    vectorizer,
+    tfidf_matrix,
+    df,
+    use_expansion=use_expansion,
+    threshold=threshold,
+    top_n=top_n
+)
 
-# Nilai default
-use_expansion = False
-top_n = 10
-threshold = 0.10
     with col2:
         search_btn = st.button("🔍 Cari Sekarang")
 
@@ -472,13 +476,12 @@ threshold = 0.10
     vectorizer   = st.session_state["vectorizer"]
     tfidf_matrix = st.session_state["tfidf_matrix"]
 
-    col_left2, col_center2, col_right2 = st.columns([1, 3, 1])
-    with col_center2:
-        st.markdown(f"""
-        <div class="info-banner">
-            📰 <b>{len(df)}</b> artikel berita terindeks · Siap dicari
-        </div>
-        """, unsafe_allow_html=True)
+    df           = st.session_state["df"]
+vectorizer   = st.session_state["vectorizer"]
+tfidf_matrix = st.session_state["tfidf_matrix"]
+
+# ── Proses pencarian ──
+if search_btn and query_input.strip():
 
     # ── Proses pencarian ──
     if search_btn and query_input.strip():
