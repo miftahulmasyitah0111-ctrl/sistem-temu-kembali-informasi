@@ -441,35 +441,13 @@ def main():
             placeholder="🔍 Cari sesuatu yang menarik...",
             label_visibility="collapsed"
         )
-
+use_expansion = False
+top_n = 10
+threshold = 0.10
     with col2:
         search_btn = st.button("🔍 Cari Sekarang")
 
     st.markdown("<br>", unsafe_allow_html=True)
-
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        use_expansion = st.checkbox(
-            "🔄 Gunakan Query Expansion",
-            value=False
-        )
-
-    with c2:
-        top_n = st.selectbox(
-            "Jumlah hasil",
-            [5,10,20],
-            index=1
-        )
-
-    with c3:
-        threshold = st.slider(
-            "Threshold relevansi",
-            0.01,
-            1.0,
-            0.10,
-            0.01
-        )
 
     st.markdown("</div>", unsafe_allow_html=True)
 
