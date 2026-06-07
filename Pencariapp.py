@@ -180,13 +180,6 @@ html, body, [class*="css"]{
     color:#0f5c67;
     box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
-
-/* FOOTER */
-.footer{
-    text-align:center;
-    color:#64748b;
-    margin-top:40px;
-}
 </style>
 """, unsafe_allow_html=True)
 
