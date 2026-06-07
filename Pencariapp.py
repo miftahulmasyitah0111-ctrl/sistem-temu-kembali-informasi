@@ -609,13 +609,7 @@ def main():
             </div>
             """, unsafe_allow_html=True)
 
-    # ── Footer ──
-    st.markdown("""
-    <div class="footer">
-        Sistem Temu Kembali Informasi · TF-IDF + Cosine Similarity + Query Expansion<br>
-        Sumber data: Kompas.com · Dibangun dengan Streamlit
-    </div>
-    """, unsafe_allow_html=True)
+   
 
 
 if __name__ == "__main__":
