@@ -415,61 +415,69 @@ def main():
     stopword, stemmer = load_nlp_tools()
     URLS              = load_dataset_and_index()
 
-    # ── Hero ──
-  # ==========================
-# SEARCH PANEL MODERN
-# ==========================
+    # ==================================
+    # HERO SECTION
+    # ==================================
 
-st.markdown("""
-<div style="
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 8px 30px rgba(0,0,0,.08);
-margin-bottom:25px;
-">
-""", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="hero-section">
+        <div class="hero-logo">📰</div>
+        <h1 class="hero-title">
+            Mesin Pencari Berita Indonesia
+        </h1>
+        <p class="hero-subtitle">
+            <b>TF-IDF</b> • Cosine Similarity • Query Expansion
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-col1, col2 = st.columns([5,1])
+    # ==================================
+    # SEARCH PANEL
+    # ==================================
 
-with col1:
-    query_input = st.text_input(
-        "",
-        placeholder="🔍 Cari sesuatu yang menarik...",
-        label_visibility="collapsed"
-    )
+    st.markdown("""
+    <div class="glass-card">
+    """, unsafe_allow_html=True)
 
-with col2:
-    st.write("")
-    search_btn = st.button("Cari Sekarang")
+    col1, col2 = st.columns([5,1])
 
-st.markdown("<br>", unsafe_allow_html=True)
+    with col1:
+        query_input = st.text_input(
+            "",
+            placeholder="🔍 Cari sesuatu yang menarik...",
+            label_visibility="collapsed"
+        )
 
-c1, c2, c3 = st.columns(3)
+    with col2:
+        search_btn = st.button("🔍 Cari Sekarang")
 
-with c1:
-    use_expansion = st.checkbox(
-        "🔄 Gunakan Query Expansion",
-        value=False
-    )
+    st.markdown("<br>", unsafe_allow_html=True)
 
-with c2:
-    top_n = st.selectbox(
-        "Jumlah hasil",
-        [5,10,20],
-        index=1
-    )
+    c1, c2, c3 = st.columns(3)
 
-with c3:
-    threshold = st.slider(
-        "Threshold relevansi",
-        0.01,
-        1.0,
-        0.1,
-        0.01
-    )
+    with c1:
+        use_expansion = st.checkbox(
+            "🔄 Gunakan Query Expansion",
+            value=False
+        )
 
-st.markdown("</div>", unsafe_allow_html=True)
+    with c2:
+        top_n = st.selectbox(
+            "Jumlah hasil",
+            [5,10,20],
+            index=1
+        )
+
+    with c3:
+        threshold = st.slider(
+            "Threshold relevansi",
+            0.01,
+            1.0,
+            0.10,
+            0.01
+        )
+
+    st.markdown("</div>", unsafe_allow_html=True)
 
     # ── Load & Index data ──
     if "df" not in st.session_state or "vectorizer" not in st.session_state:
@@ -516,28 +524,35 @@ st.markdown("</div>", unsafe_allow_html=True)
         with col_center3:
             # Metrik evaluasi
             st.markdown(f"""
-            <div class="glass-card">
-                <div style="color:white;font-weight:600;font-size:15px;margin-bottom:14px;">
-                    📊 Evaluasi Hasil — query: <i>"{query_input}"</i>
-                    → token: <code style="background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:8px;">
-                    {" ".join(query_tokens)}</code>
-                </div>
-                <div class="metric-grid">
-                    <div class="metric-box">
-                        <div class="metric-label">Precision</div>
-                        <div class="metric-value">{precision:.2f}</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-label">Recall</div>
-                        <div class="metric-value">{recall:.2f}</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="metric-label">F1-Score</div>
-                        <div class="metric-value">{f1:.2f}</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+<div class="metric-grid">
+
+<div class="metric-box">
+<h4>Total Artikel</h4>
+<div class="metric-value">{len(df)}</div>
+</div>
+
+<div class="metric-box">
+<h4>Hasil Ditemukan</h4>
+<div class="metric-value">{len(results)}</div>
+</div>
+
+<div class="metric-box">
+<h4>Precision</h4>
+<div class="metric-value">{precision:.2f}</div>
+</div>
+
+<div class="metric-box">
+<h4>Recall</h4>
+<div class="metric-value">{recall:.2f}</div>
+</div>
+
+<div class="metric-box">
+<h4>F1 Score</h4>
+<div class="metric-value">{f1:.2f}</div>
+</div>
+
+</div>
+""", unsafe_allow_html=True)
 
             # Sinonim yang dipakai
             if use_expansion and synonyms_used:
