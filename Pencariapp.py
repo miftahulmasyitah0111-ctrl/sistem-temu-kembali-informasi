@@ -425,39 +425,30 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-    # ==================================
-    # SEARCH PANEL
-    # ==================================
+   # ==================================
+# SEARCH PANEL
+# ==================================
 
-    st.markdown("""
-    <div class="glass-card">
-    """, unsafe_allow_html=True)
+st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 
-    col1, col2 = st.columns([5,1])
+col1, col2 = st.columns([5, 1])
 
-    with col1:
-   with col1:
+with col1:
     query_input = st.text_input(
         "",
         placeholder="🔍 Cari sesuatu yang menarik...",
         label_visibility="collapsed"
     )
-       results, precision, recall, f1, synonyms_used = search(
-    query_tokens,
-    vectorizer,
-    tfidf_matrix,
-    df,
-    use_expansion=use_expansion,
-    threshold=threshold,
-    top_n=top_n
-)
 
-    with col2:
-        search_btn = st.button("🔍 Cari Sekarang")
+with col2:
+    search_btn = st.button("🔍 Cari Sekarang")
 
-    st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+# Setting default
+use_expansion = False
+top_n = 10
+threshold = 0.10
 
     # ── Load & Index data ──
     if "df" not in st.session_state or "vectorizer" not in st.session_state:
@@ -484,112 +475,90 @@ tfidf_matrix = st.session_state["tfidf_matrix"]
 if search_btn and query_input.strip():
 
     # ── Proses pencarian ──
-    if search_btn and query_input.strip():
-        query_tokens = preprocess_query(query_input, stopword, stemmer)
+ if search_btn and query_input.strip():
 
-        if not query_tokens:
-            st.warning("Query tidak menghasilkan token yang valid. Coba kata lain.")
-            return
+    query_tokens = preprocess_query(
+        query_input,
+        stopword,
+        stemmer
+    )
 
-        with st.spinner("🔍 Memproses pencarian..."):
-            results, precision, recall, f1, synonyms_used = search(
-                query_tokens, vectorizer, tfidf_matrix, df,
-                use_expansion=use_expansion,
-                threshold=threshold,
-                top_n=top_n,
-            )
+    if not query_tokens:
+        st.warning("Query tidak menghasilkan token yang valid.")
+        return
 
-        col_left3, col_center3, col_right3 = st.columns([1, 3, 1])
-        with col_center3:
-            # Metrik evaluasi
+    with st.spinner("🔍 Memproses pencarian..."):
+        results, precision, recall, f1, synonyms_used = search(
+            query_tokens,
+            vectorizer,
+            tfidf_matrix,
+            df,
+            use_expansion=use_expansion,
+            threshold=threshold,
+            top_n=top_n
+        )
+
+    st.markdown(f"""
+    <div class="metric-grid">
+
+        <div class="metric-box">
+            <div class="metric-label">Total Artikel</div>
+            <div class="metric-value">{len(df)}</div>
+        </div>
+
+        <div class="metric-box">
+            <div class="metric-label">Hasil</div>
+            <div class="metric-value">{len(results)}</div>
+        </div>
+
+        <div class="metric-box">
+            <div class="metric-label">Precision</div>
+            <div class="metric-value">{precision:.2f}</div>
+        </div>
+
+        <div class="metric-box">
+            <div class="metric-label">Recall</div>
+            <div class="metric-value">{recall:.2f}</div>
+        </div>
+
+        <div class="metric-box">
+            <div class="metric-label">F1 Score</div>
+            <div class="metric-value">{f1:.2f}</div>
+        </div>
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    if results:
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        for rank, (idx, score, q_used) in enumerate(results, 1):
+
+            judul = df["Judul"].iloc[idx]
+            url = df["URL"].iloc[idx]
+
             st.markdown(f"""
-<div class="metric-grid">
-
-<div class="metric-box">
-<h4>Total Artikel</h4>
-<div class="metric-value">{len(df)}</div>
-</div>
-
-<div class="metric-box">
-<h4>Hasil Ditemukan</h4>
-<div class="metric-value">{len(results)}</div>
-</div>
-
-<div class="metric-box">
-<h4>Precision</h4>
-<div class="metric-value">{precision:.2f}</div>
-</div>
-
-<div class="metric-box">
-<h4>Recall</h4>
-<div class="metric-value">{recall:.2f}</div>
-</div>
-
-<div class="metric-box">
-<h4>F1 Score</h4>
-<div class="metric-value">{f1:.2f}</div>
-</div>
-
-</div>
-""", unsafe_allow_html=True)
-
-            # Sinonim yang dipakai
-            if use_expansion and synonyms_used:
-                syn_html = ""
-                for tok, syns in zip(query_tokens, synonyms_used):
-                    badges = "".join(f'<span class="badge">{s}</span> ' for s in syns)
-                    syn_html += f'<div style="margin-bottom:6px;color:rgba(255,255,255,0.85);font-size:13px;"><b>{tok}</b> → {badges}</div>'
-                st.markdown(f"""
-                <div class="glass-card">
-                    <div style="color:white;font-weight:600;font-size:14px;margin-bottom:10px;">🔄 Sinonim yang digunakan</div>
-                    {syn_html}
+            <div class="result-card">
+                <div class="result-title">
+                    #{rank} - {judul}
                 </div>
-                """, unsafe_allow_html=True)
 
-            # Daftar hasil
-            if results:
-                st.markdown(f"""
-                <div style="color:white;font-weight:600;font-size:16px;margin:10px 0 14px;">
-                    📋 {len(results)} Berita Ditemukan
+                <div class="result-url">
+                    Relevansi : {score:.4f}
                 </div>
-                """, unsafe_allow_html=True)
 
-                for rank, (idx, score, q_used) in enumerate(results, 1):
-                    bar_width = min(int(score * 100 / max(r[1] for r in results) * 100), 100)
-                    judul = df["Judul"].iloc[idx]
-                    url   = df["URL"].iloc[idx]
-                    domain = url.split("/")[2] if "/" in url else url
+                <a href="{url}" target="_blank">
+                    Buka Artikel
+                </a>
+            </div>
+            """, unsafe_allow_html=True)
 
-                    st.markdown(f"""
-                    <div class="result-card">
-                        <div class="result-rank">#{rank} · Relevansi {score:.4f}</div>
-                        <div class="result-title">{judul}</div>
-                        <div class="result-url">🔗 {domain}</div>
-                        <div class="result-meta">
-                            <span class="badge">Score: {score:.4f}</span>
-                            <span class="badge">Query: {q_used}</span>
-                            <a href="{url}" target="_blank"
-                               style="color:#1a7a8f;font-size:13px;font-weight:500;text-decoration:none;">
-                               Buka artikel ↗
-                            </a>
-                        </div>
-                        <div class="result-score-bar" style="width:{bar_width}%"></div>
-                    </div>
-                    """, unsafe_allow_html=True)
-            else:
-                st.markdown("""
-                <div class="glass-card" style="text-align:center;color:white;">
-                    😕 Tidak ada hasil ditemukan dengan threshold ini.<br>
-                    <small>Coba turunkan nilai threshold atau gunakan query yang berbeda.</small>
-                </div>
-                """, unsafe_allow_html=True)
+    else:
+        st.warning("Tidak ada hasil ditemukan.")
 
-    elif search_btn and not query_input.strip():
-        col_left4, col_center4, col_right4 = st.columns([1, 3, 1])
-        with col_center4:
-            st.markdown("""
-            <div class="glass-card" style="text-align:center;color:white;">
-                ⚠️ Masukkan kata kunci terlebih dahulu.
+elif search_btn:
+    st.warning("Masukkan kata kunci terlebih dahulu.")
             </div>
             """, unsafe_allow_html=True)
 
