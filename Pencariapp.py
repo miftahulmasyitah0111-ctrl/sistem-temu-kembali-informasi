@@ -86,10 +86,12 @@ html, body, [class*="css"]{
 /* SEARCH CARD */
 .glass-card{
     background:white;
-    padding:30px;
+    padding:25px;
     border-radius:25px;
-    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    box-shadow:0 5px 15px rgba(0,0,0,.06);
     border:1px solid #e2e8f0;
+    max-width:1400px;
+    margin:auto;
 }
 
 /* INPUT */
